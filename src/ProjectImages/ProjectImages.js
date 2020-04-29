@@ -1,4 +1,4 @@
 const Images ={
- ali:require('../Images/Maddison.jpg')
+ ali:require('../images/Maddison.jpg')
 }
 export default Images

@@ -12,7 +12,7 @@ import Chat from './Pages/Chat/Chat';
 import Profile from './Pages/Profile/Profile';
 import Signup from './Pages/Signup/Signup';
 import Login from './Pages/Login/Login';
-import firebase from './Services/firebase';
+//import firebase from './Services/firebase';
 import {toast, ToastContainer} from 'react-toastify';
 
 class App extends Component{
@@ -28,35 +28,37 @@ class App extends Component{
                 break;
         }
     }
-   constructor() {
-       super();
-       this.state = {
-           authenticated: false,
-           loading: true
-       };
-   }
-   componentDidMount(){
-        //method to fetch data from API
-       firebase.auth().onAuthStateChanged(user =>{
-           if(user) {
-               this.setState({
-                   authenticated: true,
-                   loading: false
-               });
-           }else{
-               this.setState({
-                   authenticated: false,
-                   loading: false
-               });
-           }
-       } )
-   }
+   // constructor() {
+   //     super();
+   //     // this.state = {
+   //     //     authenticated: false,
+   //     //     loading: true
+   //     // };
+   // }
+   // componentDidMount(){
+   //      //method to fetch data from API
+   //     firebase.auth().onAuthStateChanged(user =>{
+   //         if(user) {
+   //             this.setState({
+   //                 authenticated: true,
+   //                 loading: false
+   //             });
+   //         }else{
+   //             this.setState({
+   //                 authenticated: false,
+   //                 loading: false
+   //             });
+   //         }
+   //     } )
+   // }
    render(){
-        return this.state.loading === true ? (
-            <div className = "spinner-border text-success" role = 'status'  >
-                <span className = "sr-only">Loading...</span>
-            </div>
-        ):(
+        return (
+       //this.state.loading === true ? (
+        //     <div className = "spinner-border text-success" role = 'status'  >
+        //         <span className = "sr-only">Loading...</span>
+        //     </div>
+        // ):
+
             <Router>
                 <ToastContainer
                 autoClose={2000}
@@ -89,7 +91,7 @@ class App extends Component{
                     />
                 </Switch>
             </Router>
-        )
+       )
    }
 }
 export default App
