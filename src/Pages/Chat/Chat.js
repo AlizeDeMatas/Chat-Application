@@ -2,6 +2,7 @@ import React from 'react';
 import LoginString from "../Login/LoginString";
 import firebase from "../../Services/firebase";
 import './Chat.css';
+//import images from './images/emptyphoto';
 //import ReactLoading from 'react-loading';
 
 export default class Chat extends React.Component {
@@ -48,6 +49,7 @@ export default class Chat extends React.Component {
                         notificationId: item.notificationId,
                         number: item.number
                     })
+                    return null;
                 })
                 this.setState({
                     displayedContactSwitchedNotification: this.currentUserMessages
@@ -172,13 +174,83 @@ export default class Chat extends React.Component {
                         </button>
                     )
                 }
+                return null;
             })
+
             this.setState({
                 displayedContacts: viewListUser
             })
+
         } else {
             console.log("No user is Present")
 
+        }
+    }
+
+    searchHandler =(event)=>{
+        let searchQuery = event.target.value.toLowerCase(),
+            displayedContacts = this.searchUsers.filter((el)=>{
+            let SearchValue = el.name.toLowerCase();
+            return SearchValue.indexOf(searchQuery) !== -1;
+
+            })
+        this.dsplayedContacts = displayedContacts
+        this.displaySearchedContacts()
+
+    }
+    displaySearchedContacts=()=>{
+        if(this.searchUsers.length > 0){
+            let viewListUser = []
+            let classname = ''
+            this.displayedContacts.map((item)=>{
+                if(item.id !== this.currentUserId){
+                    classname = this.getClassnameforUserandNotification(item.id)
+                    viewListUser.push(
+
+                        <button
+
+                            id={item.key}
+
+                            className={classname}
+
+                            onClick={() => {
+                                this.notificationErase(item.id)
+                                this.setState({currentPeerUser: item,
+                                    displayedContactswithNotification: this.notificationMessagesErase})
+                                document.getElementById(item.key).style.backgroundColor = "#fff"
+                                if (document.getElementById(item.key)){
+                                    document.getElementById(item.key).style.color = '#fff'
+                                }
+                            }}
+                        >
+                            <img
+                                className="viewAvatarItem"
+                                src={item.URL}
+                                alt=""
+                               // placeholder={images.emptyphoto}
+                            />
+
+                            <div className="viewWrapContentItem">
+                  <span className="textItem">{`Name: ${
+                      item.name
+                  }`}</span>
+                            </div>
+                            { classname === 'viewWrapItemNotification' ?
+                                <div className='notificationpragraph'>
+                                    <p id={item.key} className="newmessages">New messages</p>
+                                </div>:null}
+                        </button>
+                    )
+                }
+                return null;
+
+            })
+            this.setState({
+                displayedContacts:viewListUser
+            });
+
+        }else{
+            console.log("No user is present")
         }
     }
 
@@ -196,6 +268,23 @@ export default class Chat extends React.Component {
                             />
                             <button className="Logout" onClick={this.logout}>LogOut</button>
                         </div>
+                        <div className="rootsearchbar">
+                            <div className = "input-container">
+                                <i class = "fa fa-search icon"></i>
+                                <input class = "input-field"
+                                type = "text"
+                                onChange = {this.searchHandler}
+                                       placeholder = "Search"
+                                />
+
+
+
+                            </div>
+                        </div>
+
+
+
+
                         {this.state.displayedContacts}
                     </div>
 
